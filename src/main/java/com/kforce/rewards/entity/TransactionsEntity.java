@@ -1,6 +1,5 @@
 package com.kforce.rewards.entity;
 
-import com.fasterxml.jackson.annotation.JsonFilter;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,7 +13,6 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @NoArgsConstructor
-@JsonFilter("transactionsFilter")
 public class TransactionsEntity {
     @Id
     @Column(name = "TRANSACTION_ID", nullable = false)
@@ -35,12 +33,4 @@ public class TransactionsEntity {
 
     @Transient
     private Integer points;
-
-    public CustomersEntity getCustomersByCustomerId() {
-        return customersByCustomerId;
-    }
-
-    public void setCustomersByCustomerId(CustomersEntity customersByCustomerId) {
-        this.customersByCustomerId = customersByCustomerId;
-    }
 }

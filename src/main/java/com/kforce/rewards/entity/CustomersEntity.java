@@ -17,9 +17,6 @@ import java.util.Collection;
 @JsonFilter("customersFilter")
 public class CustomersEntity implements Serializable {
 
-    /**
-     * Generated Serial ID
-     */
     private static final long serialVersionUID = -354397830345539477L;
 
     @Id
@@ -46,13 +43,4 @@ public class CustomersEntity implements Serializable {
 
     @OneToMany(mappedBy = "customersByCustomerId", cascade = {CascadeType.ALL, CascadeType.PERSIST, CascadeType.MERGE})
     private Collection<TransactionsEntity> transactionsByCustomerId;
-
-
-    public Collection<TransactionsEntity> getTransactionsByCustomerId() {
-        return transactionsByCustomerId;
-    }
-
-    public void setTransactionsByCustomerId(Collection<TransactionsEntity> transactionsByCustomerId) {
-        this.transactionsByCustomerId = transactionsByCustomerId;
-    }
 }

@@ -5,7 +5,6 @@
  */
 package com.kforce.rewards.exception;
 
-import com.kforce.rewards.dao.MetadataDAO;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +30,6 @@ import java.util.List;
 @ResponseBody
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
-    private MetadataDAO metadataDAO;
 
     /**
      * @param ex

@@ -12,7 +12,7 @@ import lombok.Setter;
  * The ErrorResponseDetails class holds the attributes representing the response code and response message. These attributes are used
  * to send the exception response when an unexpected error occurred during processing of request
  *
- * @author Surender Reddy
+ * @author Rakesh Chouhan
  */
 @Getter
 @Setter

@@ -1,6 +1,5 @@
 package com.kforce.rewards.dto;
 
-import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,8 +8,6 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-//@JsonInclude(Include.NON_EMPTY)
-@JsonFilter("transactionsFilter")
 public class Transactions {
 
     @JsonProperty("transaction_id")

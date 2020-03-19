@@ -1,7 +1,7 @@
 
 -- Enable these 2 lines for the very first run, then you must disable on subsequent runs
---DROP SCHEMA IF EXISTS POINTS;
---CREATE SCHEMA POINTS;
+DROP SCHEMA IF EXISTS POINTS;
+CREATE SCHEMA POINTS;
 
 SET SCHEMA POINTS;
 
