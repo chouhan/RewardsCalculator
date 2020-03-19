@@ -21,7 +21,7 @@ public class CustomersEntity implements Serializable {
 
     @Id
     @Column(name = "CUSTOMER_ID", nullable = false)
-    private int customerId;
+    private Long customerId;
 
     @Column(name = "TELEPHONE_NUMBER", nullable = false, length = 255)
     private String telephoneNumber;

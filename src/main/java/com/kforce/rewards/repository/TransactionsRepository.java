@@ -8,8 +8,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Repository
-public interface TransactionsRepository extends JpaRepository<TransactionsEntity, Integer> {
+public interface TransactionsRepository extends JpaRepository<TransactionsEntity, Long> {
 
-    List<TransactionsEntity> findByCustomersByCustomerId_CustomerIdAndTransactionDateGreaterThanEqualOrderByTransactionDateAsc(Integer customerId, LocalDate startDate);
+    List<TransactionsEntity> findByCustomersByCustomerId_CustomerIdAndTransactionDateGreaterThanEqualOrderByTransactionDateAsc(Long customerId, LocalDate startDate);
 
 }

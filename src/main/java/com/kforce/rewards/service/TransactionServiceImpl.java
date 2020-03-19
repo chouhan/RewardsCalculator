@@ -8,25 +8,24 @@ import com.kforce.rewards.entity.TransactionsEntity;
 import com.kforce.rewards.repository.TransactionsRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.omg.IOP.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpServerErrorException;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 
-@Service
-public class TransactionService {
+@Component
+public class TransactionServiceImpl implements TransactionsService {
 
     private static final Logger LOGGER = LogManager.getLogger(TransactionService.class);
 
@@ -36,7 +35,7 @@ public class TransactionService {
     private Mapper beanMapper = DozerBeanMapperBuilder.buildDefault();
 
     @Cacheable(value = "rewardPointsCalculator")
-    public ResponseEntity<TransactionsList> findAllRewardPointsForCustomerBetweenDates(Integer customerId, String startDate, String endDate) {
+    public ResponseEntity<TransactionsList> findAllRewardPointsForCustomerBetweenDates(Long customerId, LocalDate startDate, LocalDate endDate) {
         LOGGER.info("Inside " + this.getClass() + " findAllRewardPointsForCustomerBetweenDates method");
 
         // Get all transactions of a customer between provided dates
@@ -56,7 +55,9 @@ public class TransactionService {
         }).collect(Collectors.toList());
 
         //Group Months
-        Map<String, Integer> pointsByMonth = transactionsEntityList1.stream().collect(Collectors.groupingBy(transactionsEntity -> transactionsEntity.getTransactionDate().getMonth().name(), Collectors.summingInt(TransactionsEntity::getPoints)));
+        Map<String, Integer> pointsByMonth = transactionsEntityList1.stream()
+                .collect(Collectors.groupingBy(transactionsEntity -> transactionsEntity.getTransactionDate().getMonth().name(),
+                        Collectors.summingInt(TransactionsEntity::getPoints)));
 
         // Total Reward points for all transactions in all months
         Integer totalRewardPoints = transactionsEntityList1.stream().map(transactionsEntity -> transactionsEntity.getPoints())
@@ -79,13 +80,7 @@ public class TransactionService {
         return new ResponseEntity<>(transactionsList, new HttpHeaders(), HttpStatus.OK);
     }
 
-    public List<TransactionsEntity> getAllTransactionsForCustomerBetweenDates(Integer customerId, String startDate, String endDate) {
-        LocalDate sDate = LocalDate.parse(startDate, DateTimeFormatter.ofPattern("MM-dd-yyyy"));
-        LocalDate eDate = StringUtils.isEmpty(endDate) ? LocalDate.now() : LocalDate.parse(endDate, DateTimeFormatter.ofPattern("MM-dd-yyyy"));
-
-        if (eDate.isBefore(sDate)) {
-            throw new IllegalArgumentException("Start date cannot be greater than end date");
-        }
+    private List<TransactionsEntity> getAllTransactionsForCustomerBetweenDates(Long customerId, LocalDate sDate, LocalDate eDate) {
 
         List<TransactionsEntity> transactionsEntityList = null;
         try {
